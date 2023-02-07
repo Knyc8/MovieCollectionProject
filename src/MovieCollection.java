@@ -304,6 +304,7 @@ public class MovieCollection
     private void listGenres()
     {
         // arraylist to hold search results
+        ArrayList<Movie> results = new ArrayList<Movie>();
         ArrayList<String> genres = new ArrayList<String>();
 
         // search through ALL movies in collection
@@ -327,6 +328,52 @@ public class MovieCollection
         {
             System.out.println(i+1 + ". " + genres.get(i));
         }
+
+        System.out.println("Which genre would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        String genre = genres.get(choice - 1);
+
+        for (Movie movie : movies)
+        {
+            String[] genreList = movie.getGenres().split("\\|");
+            for (String genName : genreList)
+            {
+                if (genName.equalsIgnoreCase(genre))
+                {
+                    results.add(movie);
+                }
+            }
+        }
+
+        // sort the results by keywords
+        sortResults(results);
+
+        // now, display them all to the user
+        for (int i = 0; i < results.size(); i++)
+        {
+            String title = results.get(i).getTitle();
+
+            // this will print index 0 as choice 1 in the results list; better for user!
+            int choiceNum = i + 1;
+
+            System.out.println("" + choiceNum + ". " + title);
+        }
+
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int genChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        Movie selectedMovie = results.get(choice - 1);
+
+        displayMovieInfo(selectedMovie);
+
+        System.out.println("\n ** Press Enter to Return to Main Menu **");
+        scanner.nextLine();
 
         /*// sort the results by title
         sortResults(genres);
